@@ -57,7 +57,7 @@
     shell = pkgs.zsh;
     extraGroups = ["wheel" "networkmanager" "grafana"];
     openssh.authorizedKeys.keys = [
-      (builtins.readFile /etc/nixos/secrets/id_ed25519.pub)
+      (builtins.readFile ./secrets/ssh_host_ed25519_key.pub)
     ];
   };
 
