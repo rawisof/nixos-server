@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
-# Цвета для вывода
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-# === ОБЪЯВЛЕНИЕ ПЕРЕМЕННЫХ (Исправлено: добавлены пути) ===
+# === ОБЪЯВЛЕНИЕ ПЕРЕМЕННЫХ ===
 HARDWARE_CONF="/mnt/etc/nixos/hardware-configuration.nix" # или ваш кастомный путь, например ./hardware-configuration.nix
 SECRETS_DIR="/mnt/etc/nixos/secrets"
 GRAFANA_SECRET="$SECRETS_DIR/grafana_secret"
@@ -50,14 +47,16 @@ fi
 
 if [ ! -f "$GRAFANA_SECRET" ]; then
 	echo -e "${BLUE}==> Generating Grafana key...${NC}"
-	tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24 > "$GRAFANA_SECRET"
+	
+	LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24 > "$GRAFANA_SECRET"
 	echo "" >> "$GRAFANA_SECRET"
 	
 	chmod 0600 "$GRAFANA_SECRET"
-	echo -e "${GREEN}[ OK ] Grafana key generated.${NC}"
+	echo -e "${GREEN}[ OK ] grafana key generated.${NC}"
 else
-	echo -e "${GREEN}[ OK ] Grafana key exists.${NC}"
+	echo -e "${GREEN}[ OK ] grafana key exists.${NC}"
 fi
+
 
 
 if [ -d ".git" ] || git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
