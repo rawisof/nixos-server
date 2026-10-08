@@ -71,6 +71,10 @@ if [ -d ".git" ]; then
 	git add -N "$HARDWARE_CONF" 2>/dev/null || true
 fi
 
+cp -R ~/nixos-server/nixos/* /mnt/etc/nixos/ &&
+cd /mnt/etc/nixos &&
+nixos-install --flake .#nixos --impure
+
 echo -e "${GREEN}==============================${NC}"
 echo -e "${GREEN}[ OK ] deploy end.${NC}"
 echo -e "${GREEN}==============================${NC}"
