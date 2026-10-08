@@ -65,20 +65,21 @@ else
 	echo -e "${GREEN}[ OK ] Grafana key exists.${NC}"
 fi
 
-# Добавление в индекс Git для Flakes
-if [ -d ".git" ]; then
+if [ -d ".git" ] || git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	echo -e "${BLUE}==> Updating git index for flakes...${NC}"
-	git add -N "$HARDWARE_CONF" 2>/dev/null || true
+	git add -N "nixos/hardware-configuration.nix" 2>/dev/null || true
 fi
 
-cp -R ~/nixos-server/nixos/* /mnt/etc/nixos/ &&
-cd /mnt/etc/nixos &&
+echo -e "${BLUE}==> Copying configuration files to /mnt...${NC}"
+rsync -a --exclude='secrets' ~/nixos-server/nixos/ /mnt/etc/nixos/ 2>/dev/null || cp -R ~/nixos-server/nixos/* /mnt/etc/nixos/
+
+echo -e "${BLUE}==> Navigating to target directory...${NC}"
+cd /mnt/etc/nixos
+
+echo -e "${BLUE}==> Starting NixOS Installation...${NC}"
 nixos-install --flake .#nixos --impure
 
 echo -e "${GREEN}==============================${NC}"
 echo -e "${GREEN}[ OK ] deploy end.${NC}"
 echo -e "${GREEN}==============================${NC}"
 
-echo -e "${GREEN}==============================${NC}"
-echo -e "${GREEN} And 'cp /etc/nixos/develop/flake.nix' you project path${NC}"
-echo -e "${GREEN}==============================${NC}"
