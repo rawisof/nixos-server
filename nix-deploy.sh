@@ -71,10 +71,6 @@ if [ -d ".git" ]; then
 	git add -N "$HARDWARE_CONF" 2>/dev/null || true
 fi
 
-# Деплой конфигурации NixOS
-echo -e "${BLUE}==> Applying NixOS configuration...${NC}"
-nixos-rebuild switch --flake .#nixos
-
 echo -e "${GREEN}==============================${NC}"
 echo -e "${GREEN}[ OK ] deploy end.${NC}"
 echo -e "${GREEN}==============================${NC}"

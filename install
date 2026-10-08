@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+git clone https://github.com/rawisof/nixos-server.git &&
+cd nixos-server/nixos &&
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./disko.nix &&
+mkdir -p /mnt/etc/nixos &&
+cd ../ &&
+./nix-deploy.sh &&
+cp -R ./* /mnt/etc/nixos/ &&
+cd /mnt/etc/nixos &&
+nixos-install --flake .#nixos --impure
