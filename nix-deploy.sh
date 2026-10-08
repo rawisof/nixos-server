@@ -9,8 +9,8 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 # === ОБЪЯВЛЕНИЕ ПЕРЕМЕННЫХ (Исправлено: добавлены пути) ===
-HARDWARE_CONF="hardware-configuration.nix" # или ваш кастомный путь, например ./hardware-configuration.nix
-SECRETS_DIR="/etc/nixos/secrets"
+HARDWARE_CONF="/mnt/etc/nixos/hardware-configuration.nix" # или ваш кастомный путь, например ./hardware-configuration.nix
+SECRETS_DIR="/mnt/etc/nixos/secrets"
 GRAFANA_SECRET="$SECRETS_DIR/grafana_secret"
 SSH_KEY="$SECRETS_DIR/ssh_host_ed25519_key"
 
