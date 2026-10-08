@@ -48,22 +48,17 @@ else
 	echo -e "${GREEN}[ OK ] SSH key exists.${NC}"
 fi
 
-# Генерация ключа Grafana (Исправлено: права доступа и группа, чтобы Grafana могла его прочесть)
 if [ ! -f "$GRAFANA_SECRET" ]; then
 	echo -e "${BLUE}==> Generating Grafana key...${NC}"
 	tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24 > "$GRAFANA_SECRET"
 	echo "" >> "$GRAFANA_SECRET"
 	
-	# Сначала создаем группу grafana, если её еще нет в системе, чтобы chown не падал
-	getent group grafana >/dev/null || groupadd -r grafana || true
-	
-	# Выставляем правильные права
-	chown root:grafana "$GRAFANA_SECRET" 2>/dev/null || true
-	chmod 0640 "$GRAFANA_SECRET"
+	chmod 0600 "$GRAFANA_SECRET"
 	echo -e "${GREEN}[ OK ] Grafana key generated.${NC}"
 else
 	echo -e "${GREEN}[ OK ] Grafana key exists.${NC}"
 fi
+
 
 if [ -d ".git" ] || git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	echo -e "${BLUE}==> Updating git index for flakes...${NC}"

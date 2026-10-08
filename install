@@ -3,5 +3,5 @@ cd ~/nixos-server/nixos &&
 nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount ./disko.nix &&
 mkdir -p /mnt/etc/nixos &&
 cd ../ &&
-./nix-deploy.sh &&
+./nix-deploy.sh 
 
